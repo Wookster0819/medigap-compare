@@ -12,3 +12,15 @@ id = "a3J4T6tstIb-MApJTk1-c"
 uri = "file://attached_assets/generated_images/gh2_medigap_tool_banner.png"
 type = "image"
 title = "Medigap Quoting Tool Banner (1456×1048)"
+
+[[outputs]]
+id = "3SbTBpKlDM-tmSMsv2Pj_"
+uri = "file://attached_assets/generated_images/banner_1x1.png"
+type = "image"
+title = "Banner 1:1 (1080×1080)"
+
+[[outputs]]
+id = "YMF3nkSS2cW9EPfqM8eio"
+uri = "file://attached_assets/generated_images/banner_4x5.png"
+type = "image"
+title = "Banner 4:5 (1080×1350)"
