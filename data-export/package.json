@@ -1,0 +1,28 @@
+{
+  "name": "medigap-compare-data",
+  "version": "1.0.0",
+  "description": "Self-contained Medigap price comparison data package — compare Medicare Supplement plans by zip code, age, and marital status",
+  "main": "medigap.js",
+  "module": "medigap.esm.js",
+  "exports": {
+    ".": {
+      "import": "./medigap.esm.js",
+      "require": "./medigap.js"
+    },
+    "./data/insurers": "./data/insurers.json",
+    "./data/plans": "./data/plans.json",
+    "./data/zip-codes": "./data/zip-codes.json",
+    "./data/plan-letters": "./data/plan-letters.json"
+  },
+  "files": [
+    "medigap.js",
+    "medigap.esm.js",
+    "data/"
+  ],
+  "keywords": ["medigap", "medicare", "supplement", "insurance", "comparison"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USER/YOUR_REPO.git"
+  }
+}

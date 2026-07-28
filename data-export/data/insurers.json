@@ -1,0 +1,135 @@
+[
+  {
+    "id": 1,
+    "name": "AARP / UnitedHealthcare",
+    "amBestRating": "A+",
+    "moodyRating": "Aa3",
+    "yearsInBusiness": 45
+  },
+  {
+    "id": 2,
+    "name": "Mutual of Omaha",
+    "amBestRating": "A+",
+    "moodyRating": "Aa2",
+    "yearsInBusiness": 62
+  },
+  {
+    "id": 3,
+    "name": "Cigna",
+    "amBestRating": "A",
+    "moodyRating": "A2",
+    "yearsInBusiness": 38
+  },
+  {
+    "id": 4,
+    "name": "Humana",
+    "amBestRating": "A-",
+    "moodyRating": "Baa1",
+    "yearsInBusiness": 55
+  },
+  {
+    "id": 5,
+    "name": "Aetna",
+    "amBestRating": "A",
+    "moodyRating": "A3",
+    "yearsInBusiness": 40
+  },
+  {
+    "id": 6,
+    "name": "Blue Cross Blue Shield of Michigan",
+    "amBestRating": "A+",
+    "moodyRating": "Aa3",
+    "yearsInBusiness": 70
+  },
+  {
+    "id": 7,
+    "name": "Transamerica",
+    "amBestRating": "A",
+    "moodyRating": null,
+    "yearsInBusiness": 35
+  },
+  {
+    "id": 8,
+    "name": "Globe Life",
+    "amBestRating": "A-",
+    "moodyRating": null,
+    "yearsInBusiness": 68
+  },
+  {
+    "id": 9,
+    "name": "Manhattan Life",
+    "amBestRating": "B++",
+    "moodyRating": null,
+    "yearsInBusiness": 80
+  },
+  {
+    "id": 10,
+    "name": "Allstate",
+    "amBestRating": "A+",
+    "moodyRating": "Aa3",
+    "yearsInBusiness": 50
+  },
+  {
+    "id": 11,
+    "name": "Medico",
+    "amBestRating": "A-",
+    "moodyRating": null,
+    "yearsInBusiness": 42
+  },
+  {
+    "id": 12,
+    "name": "State Farm",
+    "amBestRating": "A++",
+    "moodyRating": null,
+    "yearsInBusiness": 60
+  },
+  {
+    "id": 13,
+    "name": "Anthem Blue Cross Blue Shield",
+    "amBestRating": "A",
+    "moodyRating": "A2",
+    "yearsInBusiness": 52
+  },
+  {
+    "id": 14,
+    "name": "Florida Blue (BCBS of Florida)",
+    "amBestRating": "A+",
+    "moodyRating": "Aa3",
+    "yearsInBusiness": 75
+  },
+  {
+    "id": 15,
+    "name": "Blue Cross Blue Shield of Texas",
+    "amBestRating": "A+",
+    "moodyRating": "Aa3",
+    "yearsInBusiness": 80
+  },
+  {
+    "id": 16,
+    "name": "Empire BlueCross BlueShield (NY)",
+    "amBestRating": "A",
+    "moodyRating": "A3",
+    "yearsInBusiness": 65
+  },
+  {
+    "id": 17,
+    "name": "Blue Cross Blue Shield of North Carolina",
+    "amBestRating": "A+",
+    "moodyRating": null,
+    "yearsInBusiness": 78
+  },
+  {
+    "id": 18,
+    "name": "Blue Cross Blue Shield of Illinois",
+    "amBestRating": "A+",
+    "moodyRating": null,
+    "yearsInBusiness": 82
+  },
+  {
+    "id": 19,
+    "name": "Premera Blue Cross (WA/AK)",
+    "amBestRating": "A",
+    "moodyRating": null,
+    "yearsInBusiness": 60
+  }
+]

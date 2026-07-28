@@ -1,0 +1,398 @@
+[
+  {
+    "zip": "02101",
+    "city": "Boston",
+    "state": "Massachusetts",
+    "stateCode": "MA",
+    "county": "Suffolk County",
+    "region": "Northeast",
+    "costMultiplier": 1.28
+  },
+  {
+    "zip": "06101",
+    "city": "Hartford",
+    "state": "Connecticut",
+    "stateCode": "CT",
+    "county": "Hartford County",
+    "region": "Northeast",
+    "costMultiplier": 1.22
+  },
+  {
+    "zip": "07101",
+    "city": "Newark",
+    "state": "New Jersey",
+    "stateCode": "NJ",
+    "county": "Essex County",
+    "region": "Northeast",
+    "costMultiplier": 1.25
+  },
+  {
+    "zip": "10001",
+    "city": "New York",
+    "state": "New York",
+    "stateCode": "NY",
+    "county": "New York County",
+    "region": "Northeast",
+    "costMultiplier": 1.35
+  },
+  {
+    "zip": "10021",
+    "city": "New York",
+    "state": "New York",
+    "stateCode": "NY",
+    "county": "New York County",
+    "region": "Northeast",
+    "costMultiplier": 1.35
+  },
+  {
+    "zip": "14201",
+    "city": "Buffalo",
+    "state": "New York",
+    "stateCode": "NY",
+    "county": "Erie County",
+    "region": "Northeast",
+    "costMultiplier": 1.15
+  },
+  {
+    "zip": "19101",
+    "city": "Philadelphia",
+    "state": "Pennsylvania",
+    "stateCode": "PA",
+    "county": "Philadelphia County",
+    "region": "Northeast",
+    "costMultiplier": 1.18
+  },
+  {
+    "zip": "27601",
+    "city": "Raleigh",
+    "state": "North Carolina",
+    "stateCode": "NC",
+    "county": "Wake County",
+    "region": "Southeast",
+    "costMultiplier": 0.96
+  },
+  {
+    "zip": "28201",
+    "city": "Charlotte",
+    "state": "North Carolina",
+    "stateCode": "NC",
+    "county": "Mecklenburg County",
+    "region": "Southeast",
+    "costMultiplier": 0.97
+  },
+  {
+    "zip": "30301",
+    "city": "Atlanta",
+    "state": "Georgia",
+    "stateCode": "GA",
+    "county": "Fulton County",
+    "region": "Southeast",
+    "costMultiplier": 0.95
+  },
+  {
+    "zip": "32201",
+    "city": "Jacksonville",
+    "state": "Florida",
+    "stateCode": "FL",
+    "county": "Duval County",
+    "region": "Southeast",
+    "costMultiplier": 0.98
+  },
+  {
+    "zip": "33101",
+    "city": "Miami",
+    "state": "Florida",
+    "stateCode": "FL",
+    "county": "Miami-Dade County",
+    "region": "Southeast",
+    "costMultiplier": 1.08
+  },
+  {
+    "zip": "35201",
+    "city": "Birmingham",
+    "state": "Alabama",
+    "stateCode": "AL",
+    "county": "Jefferson County",
+    "region": "Southeast",
+    "costMultiplier": 0.88
+  },
+  {
+    "zip": "37201",
+    "city": "Nashville",
+    "state": "Tennessee",
+    "stateCode": "TN",
+    "county": "Davidson County",
+    "region": "Southeast",
+    "costMultiplier": 0.93
+  },
+  {
+    "zip": "43201",
+    "city": "Columbus",
+    "state": "Ohio",
+    "stateCode": "OH",
+    "county": "Franklin County",
+    "region": "Midwest",
+    "costMultiplier": 0.94
+  },
+  {
+    "zip": "44101",
+    "city": "Cleveland",
+    "state": "Ohio",
+    "stateCode": "OH",
+    "county": "Cuyahoga County",
+    "region": "Midwest",
+    "costMultiplier": 0.92
+  },
+  {
+    "zip": "46201",
+    "city": "Indianapolis",
+    "state": "Indiana",
+    "stateCode": "IN",
+    "county": "Marion County",
+    "region": "Midwest",
+    "costMultiplier": 0.93
+  },
+  {
+    "zip": "48201",
+    "city": "Detroit",
+    "state": "Michigan",
+    "stateCode": "MI",
+    "county": "Wayne County",
+    "region": "Midwest",
+    "costMultiplier": 0.95
+  },
+  {
+    "zip": "53201",
+    "city": "Milwaukee",
+    "state": "Wisconsin",
+    "stateCode": "WI",
+    "county": "Milwaukee County",
+    "region": "Midwest",
+    "costMultiplier": 0.98
+  },
+  {
+    "zip": "55401",
+    "city": "Minneapolis",
+    "state": "Minnesota",
+    "stateCode": "MN",
+    "county": "Hennepin County",
+    "region": "Midwest",
+    "costMultiplier": 1.05
+  },
+  {
+    "zip": "57101",
+    "city": "Sioux Falls",
+    "state": "South Dakota",
+    "stateCode": "SD",
+    "county": "Minnehaha County",
+    "region": "Plains",
+    "costMultiplier": 0.88
+  },
+  {
+    "zip": "58501",
+    "city": "Bismarck",
+    "state": "North Dakota",
+    "stateCode": "ND",
+    "county": "Burleigh County",
+    "region": "Plains",
+    "costMultiplier": 0.89
+  },
+  {
+    "zip": "59101",
+    "city": "Billings",
+    "state": "Montana",
+    "stateCode": "MT",
+    "county": "Yellowstone County",
+    "region": "Mountain",
+    "costMultiplier": 0.92
+  },
+  {
+    "zip": "60601",
+    "city": "Chicago",
+    "state": "Illinois",
+    "stateCode": "IL",
+    "county": "Cook County",
+    "region": "Midwest",
+    "costMultiplier": 1.12
+  },
+  {
+    "zip": "63101",
+    "city": "St. Louis",
+    "state": "Missouri",
+    "stateCode": "MO",
+    "county": "St. Louis City",
+    "region": "Midwest",
+    "costMultiplier": 0.91
+  },
+  {
+    "zip": "66101",
+    "city": "Kansas City",
+    "state": "Kansas",
+    "stateCode": "KS",
+    "county": "Wyandotte County",
+    "region": "Plains",
+    "costMultiplier": 0.88
+  },
+  {
+    "zip": "68101",
+    "city": "Omaha",
+    "state": "Nebraska",
+    "stateCode": "NE",
+    "county": "Douglas County",
+    "region": "Plains",
+    "costMultiplier": 0.9
+  },
+  {
+    "zip": "70112",
+    "city": "New Orleans",
+    "state": "Louisiana",
+    "stateCode": "LA",
+    "county": "Orleans Parish",
+    "region": "Southeast",
+    "costMultiplier": 0.91
+  },
+  {
+    "zip": "73101",
+    "city": "Oklahoma City",
+    "state": "Oklahoma",
+    "stateCode": "OK",
+    "county": "Oklahoma County",
+    "region": "Southwest",
+    "costMultiplier": 0.88
+  },
+  {
+    "zip": "75201",
+    "city": "Dallas",
+    "state": "Texas",
+    "stateCode": "TX",
+    "county": "Dallas County",
+    "region": "Southwest",
+    "costMultiplier": 1.05
+  },
+  {
+    "zip": "77001",
+    "city": "Houston",
+    "state": "Texas",
+    "stateCode": "TX",
+    "county": "Harris County",
+    "region": "Southwest",
+    "costMultiplier": 1.03
+  },
+  {
+    "zip": "78201",
+    "city": "San Antonio",
+    "state": "Texas",
+    "stateCode": "TX",
+    "county": "Bexar County",
+    "region": "Southwest",
+    "costMultiplier": 0.97
+  },
+  {
+    "zip": "80201",
+    "city": "Denver",
+    "state": "Colorado",
+    "stateCode": "CO",
+    "county": "Denver County",
+    "region": "West",
+    "costMultiplier": 1.15
+  },
+  {
+    "zip": "82001",
+    "city": "Cheyenne",
+    "state": "Wyoming",
+    "stateCode": "WY",
+    "county": "Laramie County",
+    "region": "Mountain",
+    "costMultiplier": 0.91
+  },
+  {
+    "zip": "83701",
+    "city": "Boise",
+    "state": "Idaho",
+    "stateCode": "ID",
+    "county": "Ada County",
+    "region": "Mountain",
+    "costMultiplier": 0.97
+  },
+  {
+    "zip": "84101",
+    "city": "Salt Lake City",
+    "state": "Utah",
+    "stateCode": "UT",
+    "county": "Salt Lake County",
+    "region": "Mountain",
+    "costMultiplier": 1
+  },
+  {
+    "zip": "85001",
+    "city": "Phoenix",
+    "state": "Arizona",
+    "stateCode": "AZ",
+    "county": "Maricopa County",
+    "region": "Southwest",
+    "costMultiplier": 1.02
+  },
+  {
+    "zip": "87101",
+    "city": "Albuquerque",
+    "state": "New Mexico",
+    "stateCode": "NM",
+    "county": "Bernalillo County",
+    "region": "Southwest",
+    "costMultiplier": 0.9
+  },
+  {
+    "zip": "89101",
+    "city": "Las Vegas",
+    "state": "Nevada",
+    "stateCode": "NV",
+    "county": "Clark County",
+    "region": "West",
+    "costMultiplier": 1.05
+  },
+  {
+    "zip": "90001",
+    "city": "Los Angeles",
+    "state": "California",
+    "stateCode": "CA",
+    "county": "Los Angeles County",
+    "region": "West",
+    "costMultiplier": 1.4
+  },
+  {
+    "zip": "92101",
+    "city": "San Diego",
+    "state": "California",
+    "stateCode": "CA",
+    "county": "San Diego County",
+    "region": "West",
+    "costMultiplier": 1.35
+  },
+  {
+    "zip": "94102",
+    "city": "San Francisco",
+    "state": "California",
+    "stateCode": "CA",
+    "county": "San Francisco County",
+    "region": "West",
+    "costMultiplier": 1.45
+  },
+  {
+    "zip": "97201",
+    "city": "Portland",
+    "state": "Oregon",
+    "stateCode": "OR",
+    "county": "Multnomah County",
+    "region": "West",
+    "costMultiplier": 1.22
+  },
+  {
+    "zip": "98101",
+    "city": "Seattle",
+    "state": "Washington",
+    "stateCode": "WA",
+    "county": "King County",
+    "region": "West",
+    "costMultiplier": 1.3
+  }
+]
