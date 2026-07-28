@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "Fz3NVmA4HJfMIA7oI9bgX"
+uri = "file://attached_assets/generated_images/gh2_banner.png"
+type = "image"
+title = "GH2 Benefits Banner (1920×480)"
