@@ -10,11 +10,16 @@ export function Header() {
           <ShieldCheck className="h-6 w-6" />
           <span className="font-serif font-semibold text-xl tracking-tight">{config.appName}</span>
         </Link>
-        <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
-          <span className="cursor-default">Simple.</span>
-          <span className="cursor-default">Unbiased.</span>
-          <span className="cursor-default">Clear.</span>
-        </nav>
+        <div className="flex items-center gap-6">
+          <span className="hidden md:block text-sm font-medium text-primary border border-primary/30 bg-primary/5 rounded-full px-3 py-1">
+            Medigap Quoting Tool
+          </span>
+          <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
+            <span className="cursor-default">Simple.</span>
+            <span className="cursor-default">Unbiased.</span>
+            <span className="cursor-default">Clear.</span>
+          </nav>
+        </div>
       </div>
     </header>
   );

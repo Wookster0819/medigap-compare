@@ -12,6 +12,9 @@ export default function Home() {
         <section className="pt-16 pb-12 md:pt-24 md:pb-20 px-4">
           <div className="container mx-auto max-w-5xl">
             <div className="text-center max-w-3xl mx-auto space-y-6 mb-12">
+              <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground text-sm font-semibold px-4 py-1.5 rounded-full">
+                Medigap Quoting Tool
+              </div>
               <h1 className="text-4xl md:text-6xl font-serif text-foreground leading-tight">
                 Clear, honest Medigap pricing. <span className="text-primary italic">No pressure.</span>
               </h1>
