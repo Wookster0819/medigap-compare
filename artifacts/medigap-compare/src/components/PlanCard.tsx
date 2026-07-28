@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { MedigapPlan } from '@workspace/api-client-react';
-import { ShieldCheck, Info, Check, HeartHandshake } from 'lucide-react';
+import { Info, Check, HeartHandshake } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { LeadModal } from '@/components/LeadModal';
 
 export function PlanCard({ plan }: { plan: MedigapPlan }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200" data-testid={`card-plan-${plan.id}`}>
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6 border-b pb-6">
@@ -97,11 +101,17 @@ export function PlanCard({ plan }: { plan: MedigapPlan }) {
               "{plan.notes}"
             </div>
           )}
-          <button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-4 rounded-lg transition-colors" data-testid={`button-apply-${plan.id}`}>
+          <button
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-4 rounded-lg transition-colors"
+            data-testid={`button-apply-${plan.id}`}
+            onClick={() => setModalOpen(true)}
+          >
             Select Plan
           </button>
         </div>
       </div>
+
+      <LeadModal plan={plan} open={modalOpen} onOpenChange={setModalOpen} />
     </div>
   );
 }

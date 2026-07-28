@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { ShieldCheck } from 'lucide-react';
+import { config } from '@/lib/config';
 
 export function Header() {
   return (
@@ -7,7 +8,7 @@ export function Header() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-primary hover:opacity-90 transition-opacity">
           <ShieldCheck className="h-6 w-6" />
-          <span className="font-serif font-semibold text-xl tracking-tight">Medigap Clear</span>
+          <span className="font-serif font-semibold text-xl tracking-tight">{config.appName}</span>
         </Link>
         <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
           <span className="cursor-default">Simple.</span>
