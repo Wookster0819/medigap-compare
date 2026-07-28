@@ -9,7 +9,7 @@ A **style-agnostic** data package for Medigap (Medicare Supplement) plan compari
 ```js
 // From GitHub raw (no build step needed)
 import { comparePlans, getPlansSummary, getZipInfo, getPlanLetters }
-  from 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/data-export/medigap.esm.js';
+  from 'https://raw.githubusercontent.com/Wookster0819/medigap-compare/main/data-export/medigap.esm.js';
 
 // Or after publishing to npm
 import { comparePlans } from 'medigap-compare-data';
@@ -18,7 +18,7 @@ import { comparePlans } from 'medigap-compare-data';
 ### UMD — browser `<script>` tag
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/YOUR_USER/YOUR_REPO@main/data-export/medigap.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Wookster0819/medigap-compare@main/data-export/medigap.js"></script>
 <script>
   const plans = Medigap.comparePlans({ zip: '10001', age: 68, married: false });
 </script>
@@ -183,7 +183,7 @@ const summary = computed(() => getPlansSummary(props));
 
 <script type="module">
   import { comparePlans, getPlansSummary } from
-    'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/data-export/medigap.esm.js';
+    'https://raw.githubusercontent.com/Wookster0819/medigap-compare/main/data-export/medigap.esm.js';
 
   function renderPlans(zip, age, married) {
     const plans   = comparePlans({ zip, age, married });
