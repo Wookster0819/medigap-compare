@@ -8,6 +8,9 @@ export const insurersTable = pgTable("insurers", {
   amBestRating: text("am_best_rating").notNull().default("A"),
   moodyRating: text("moody_rating"),
   yearsInBusiness: integer("years_in_business").notNull().default(20),
+  // Comma-separated state codes where this insurer operates.
+  // NULL means available nationwide. State-specific BCBS affiliates set this.
+  availableStates: text("available_states"),
 });
 
 export const insertInsurerSchema = createInsertSchema(insurersTable).omit({ id: true });

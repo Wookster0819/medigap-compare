@@ -164,13 +164,20 @@ router.get("/plans", async (req, res): Promise<void> => {
   const costMultiplier = zipRecord?.costMultiplier ?? 1.0;
   const factor = ageFactor(age) * costMultiplier;
 
+  const stateCode = zipRecord?.stateCode ?? '';
+
   const rows = await db
     .select({ plan: medigapPlansTable, insurer: insurersTable })
     .from(medigapPlansTable)
     .innerJoin(insurersTable, eq(medigapPlansTable.insurerId, insurersTable.id));
 
   let results = rows
-    .filter((r) => !planLetter || r.plan.planLetter === planLetter)
+    .filter((r) => {
+      // State filter: null available_states = nationwide; otherwise must include this state
+      const states = r.insurer.availableStates;
+      if (states && stateCode && !states.split(',').includes(stateCode)) return false;
+      return !planLetter || r.plan.planLetter === planLetter;
+    })
     .map((r) => {
       const base = r.plan.basePremium * factor;
       // Apply household discount only when:
@@ -232,12 +239,19 @@ router.get("/plans/summary", async (req, res): Promise<void> => {
   const costMultiplier = zipRecord?.costMultiplier ?? 1.0;
   const factor = ageFactor(age) * costMultiplier;
 
+  const stateCode = zipRecord?.stateCode ?? '';
+
   const rows = await db
     .select({ plan: medigapPlansTable, insurer: insurersTable })
     .from(medigapPlansTable)
     .innerJoin(insurersTable, eq(medigapPlansTable.insurerId, insurersTable.id));
 
-  const premiums = rows.map((r) => {
+  const filteredRows = rows.filter((r) => {
+    const states = r.insurer.availableStates;
+    return !states || !stateCode || states.split(',').includes(stateCode);
+  });
+
+  const premiums = filteredRows.map((r) => {
     const base = r.plan.basePremium * factor;
     const rate = r.plan.householdDiscountRate ?? 0;
     const discountApplied = householdEligible === true && rate > 0;
