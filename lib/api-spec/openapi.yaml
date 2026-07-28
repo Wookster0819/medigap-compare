@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Medigap Plan Price Comparison API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: plans
+    description: Medigap plan operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,132 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /plans:
+    get:
+      operationId: getPlans
+      tags: [plans]
+      summary: Get Medigap plans
+      description: Returns available Medigap plans for a given zip code, age, and marital status
+      parameters:
+        - name: zip
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: age
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: married
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: planLetter
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of matching Medigap plans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MedigapPlan"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /plans/summary:
+    get:
+      operationId: getPlansSummary
+      tags: [plans]
+      summary: Get pricing summary for an area
+      description: Returns aggregated pricing stats for all plan types in the area
+      parameters:
+        - name: zip
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: age
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: married
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Plan summary by letter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlansSummary"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /plans/letters:
+    get:
+      operationId: getPlanLetters
+      tags: [plans]
+      summary: Get all Medigap plan letter definitions
+      description: Returns explanations and coverage details for each plan letter
+      responses:
+        "200":
+          description: List of plan letter definitions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlanLetterDef"
+
+  /plans/zip-info:
+    get:
+      operationId: getZipInfo
+      tags: [plans]
+      summary: Resolve a zip code to state and county
+      parameters:
+        - name: zip
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Zip code info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ZipInfo"
+        "404":
+          description: Zip not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +162,169 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    MedigapPlan:
+      type: object
+      properties:
+        id:
+          type: number
+        insurerName:
+          type: string
+        planLetter:
+          type: string
+        monthlyPremium:
+          type: number
+        annualDeductible:
+          type: number
+        outOfPocketLimit:
+          type: ["number", "null"]
+        amBestRating:
+          type: string
+        moodyRating:
+          type: ["string", "null"]
+        yearsInBusiness:
+          type: number
+        marriedDiscount:
+          type: boolean
+        notes:
+          type: ["string", "null"]
+        planType:
+          type: string
+        partBDeductibleCovered:
+          type: boolean
+        foreignTravelCovered:
+          type: boolean
+      required:
+        - id
+        - insurerName
+        - planLetter
+        - monthlyPremium
+        - annualDeductible
+        - outOfPocketLimit
+        - amBestRating
+        - moodyRating
+        - yearsInBusiness
+        - marriedDiscount
+        - notes
+        - planType
+        - partBDeductibleCovered
+        - foreignTravelCovered
+
+    PlansSummary:
+      type: object
+      properties:
+        state:
+          type: string
+        county:
+          type: string
+        totalPlans:
+          type: number
+        lowestPremium:
+          type: number
+        highestPremium:
+          type: number
+        medianPremium:
+          type: number
+        byLetter:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlanLetterSummary"
+        popularPlanLetter:
+          type: string
+      required:
+        - state
+        - county
+        - totalPlans
+        - lowestPremium
+        - highestPremium
+        - medianPremium
+        - byLetter
+        - popularPlanLetter
+
+    PlanLetterSummary:
+      type: object
+      properties:
+        letter:
+          type: string
+        count:
+          type: number
+        minPremium:
+          type: number
+        maxPremium:
+          type: number
+        avgPremium:
+          type: number
+      required:
+        - letter
+        - count
+        - minPremium
+        - maxPremium
+        - avgPremium
+
+    PlanLetterDef:
+      type: object
+      properties:
+        letter:
+          type: string
+        headline:
+          type: string
+        description:
+          type: string
+        partACoinsurance:
+          type: boolean
+        partBCoinsurance:
+          type: boolean
+        partBDeductible:
+          type: boolean
+        partADeductible:
+          type: boolean
+        skilledNursing:
+          type: boolean
+        foreignTravel:
+          type: boolean
+        outOfPocketLimit:
+          type: boolean
+        popularity:
+          type: string
+      required:
+        - letter
+        - headline
+        - description
+        - partACoinsurance
+        - partBCoinsurance
+        - partBDeductible
+        - partADeductible
+        - skilledNursing
+        - foreignTravel
+        - outOfPocketLimit
+        - popularity
+
+    ZipInfo:
+      type: object
+      properties:
+        zip:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        stateCode:
+          type: string
+        county:
+          type: string
+        region:
+          type: string
+      required:
+        - zip
+        - city
+        - state
+        - stateCode
+        - county
+        - region

@@ -6,6 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
-}
+export type GetPlansParams = {
+zip: string;
+age: number;
+married?: boolean;
+planLetter?: string;
+sortBy?: string;
+};

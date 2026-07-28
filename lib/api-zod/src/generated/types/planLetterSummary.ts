@@ -6,6 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface PlanLetterSummary {
+  letter: string;
+  count: number;
+  minPremium: number;
+  maxPremium: number;
+  avgPremium: number;
 }
