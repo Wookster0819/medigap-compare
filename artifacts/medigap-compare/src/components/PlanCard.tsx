@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MedigapPlan } from '@workspace/api-client-react';
-import { Info, Check, HeartHandshake } from 'lucide-react';
+import { Info, Check, AlertCircle } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +10,10 @@ import { LeadModal } from '@/components/LeadModal';
 
 export function PlanCard({ plan }: { plan: MedigapPlan }) {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const discountPct = plan.householdDiscountRate
+    ? `${Math.round(plan.householdDiscountRate * 100)}%`
+    : null;
 
   return (
     <div className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200" data-testid={`card-plan-${plan.id}`}>
@@ -33,17 +37,53 @@ export function PlanCard({ plan }: { plan: MedigapPlan }) {
             )}
           </div>
         </div>
-        
+
         <div className="flex flex-col md:items-end">
           <div className="text-3xl font-serif text-primary" data-testid={`text-premium-${plan.id}`}>
             ${plan.monthlyPremium}<span className="text-lg text-muted-foreground font-sans">/mo</span>
           </div>
           <div className="text-sm font-medium text-foreground mt-1">Plan {plan.planLetter}</div>
-          {plan.marriedDiscount && (
-            <div className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full" data-testid={`badge-married-discount-${plan.id}`}>
-              <HeartHandshake className="h-3 w-3" />
-              Married discount applied
-            </div>
+
+          {/* Household discount badge — only shown when actually applied */}
+          {plan.householdDiscountApplied && discountPct && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full cursor-default"
+                  data-testid={`badge-household-discount-${plan.id}`}
+                >
+                  <Check className="h-3 w-3" />
+                  {discountPct} household discount applied
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs text-sm">
+                <p className="font-medium mb-1">Eligibility requirement</p>
+                <p>{plan.householdEligibility}</p>
+                {plan.householdDiscountNotes && (
+                  <p className="mt-1 text-muted-foreground">{plan.householdDiscountNotes}</p>
+                )}
+                <p className="mt-2 text-amber-700 font-medium">Confirm eligibility directly with this insurer before enrolling.</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+
+          {/* Show available-but-not-applied discount so user knows it exists */}
+          {!plan.householdDiscountApplied && discountPct && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full cursor-default">
+                  <Info className="h-3 w-3" />
+                  {discountPct} household discount available
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs text-sm">
+                <p className="font-medium mb-1">Household discount not applied</p>
+                <p>{plan.householdEligibility}</p>
+                {plan.householdDiscountNotes && (
+                  <p className="mt-1 text-muted-foreground">{plan.householdDiscountNotes}</p>
+                )}
+              </TooltipContent>
+            </Tooltip>
           )}
         </div>
       </div>
@@ -94,20 +134,25 @@ export function PlanCard({ plan }: { plan: MedigapPlan }) {
             <span className="text-muted-foreground">Foreign Travel</span>
           </div>
         </div>
-        
+
         <div className="flex flex-col justify-end">
           {plan.notes && (
-            <div className="bg-secondary/50 p-3 rounded-md text-xs text-muted-foreground italic mb-4">
+            <div className="bg-secondary/50 p-3 rounded-md text-xs text-muted-foreground italic mb-3">
               "{plan.notes}"
             </div>
           )}
           <button
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-4 rounded-lg transition-colors"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-4 rounded-lg transition-colors mb-3"
             data-testid={`button-apply-${plan.id}`}
             onClick={() => setModalOpen(true)}
           >
             Select Plan
           </button>
+          {/* Pricing disclaimer */}
+          <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
+            <AlertCircle className="h-3 w-3 mt-0.5 shrink-0" />
+            <span>Premiums are illustrative estimates. Actual rates vary by gender, state, and underwriting. Verify with a licensed broker.</span>
+          </div>
         </div>
       </div>
 

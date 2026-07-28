@@ -8,12 +8,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { MapPin } from 'lucide-react';
+import { MapPin, Info } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const searchSchema = z.object({
   zip: z.string().regex(/^\d{5}$/, "Please enter a valid 5-digit zip code."),
   age: z.coerce.number().min(65, "You must be at least 65 to be eligible for Medigap."),
-  married: z.boolean().default(false),
+  householdEligible: z.boolean().default(false),
 });
 
 type SearchFormValues = z.infer<typeof searchSchema>;
@@ -30,7 +31,7 @@ export function SearchForm({ defaultValues }: SearchFormProps) {
     defaultValues: {
       zip: defaultValues?.zip || "",
       age: defaultValues?.age || 65,
-      married: defaultValues?.married || false,
+      householdEligible: defaultValues?.householdEligible || false,
     },
     mode: "onChange",
   });
@@ -47,8 +48,8 @@ export function SearchForm({ defaultValues }: SearchFormProps) {
     const params = new URLSearchParams();
     params.set("zip", data.zip);
     params.set("age", data.age.toString());
-    if (data.married) {
-      params.set("married", "true");
+    if (data.householdEligible) {
+      params.set("householdEligible", "true");
     }
     setLocation(`/results?${params.toString()}`);
   };
@@ -93,24 +94,35 @@ export function SearchForm({ defaultValues }: SearchFormProps) {
               )}
             />
           </div>
-          
+
           <div className="pt-2 border-t">
             <FormField
               control={form.control}
-              name="married"
+              name="householdEligible"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg bg-muted/50 p-4 border border-transparent hover:border-border transition-colors">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base font-medium">Are you married?</FormLabel>
+                  <div className="space-y-0.5 pr-4">
+                    <div className="flex items-center gap-1.5">
+                      <FormLabel className="text-base font-medium">Two people enrolling from the same household?</FormLabel>
+                      <Tooltip>
+                        <TooltipTrigger type="button">
+                          <Info className="h-4 w-4 text-muted-foreground" />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-xs text-sm">
+                          <p className="font-medium mb-1">Household discount — eligibility varies</p>
+                          <p>Some insurers reduce premiums when two people from the same household both enroll. "Household" means different things to different insurers — some require a spouse, some accept any cohabiting adult, some require both to enroll with the same insurer simultaneously. Plans that offer a discount will show the exact rate and requirement.</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                     <div className="text-sm text-muted-foreground">
-                      Some insurers offer a discount if you live with your spouse.
+                      Where available, insurers apply their own household discount. Eligibility and rates vary — see each plan for details.
                     </div>
                   </div>
                   <FormControl>
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      data-testid="switch-married"
+                      data-testid="switch-household"
                     />
                   </FormControl>
                 </FormItem>

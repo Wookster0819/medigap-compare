@@ -9,16 +9,13 @@ import {
 
 const router: IRouter = Router();
 
-// Age factor: Medigap premiums increase with age (attained-age rating)
+// Age factor: Medigap premiums increase with age under attained-age rating
 // ~3% per year above baseline age 65
 function ageFactor(age: number): number {
-  const yearsAbove65 = Math.max(0, age - 65);
-  return 1 + yearsAbove65 * 0.03;
+  return 1 + Math.max(0, age - 65) * 0.03;
 }
 
-const MARRIED_DISCOUNT_RATE = 0.07; // 7% household discount
-
-// Plan letter definitions (static)
+// Plan letter definitions (static, standardized by CMS)
 const PLAN_LETTER_DEFS = [
   {
     letter: "A",
@@ -156,9 +153,8 @@ router.get("/plans", async (req, res): Promise<void> => {
     return;
   }
 
-  const { zip, age, married, planLetter, sortBy } = parsed.data;
+  const { zip, age, householdEligible, planLetter, sortBy } = parsed.data;
 
-  // Look up zip
   const [zipRecord] = await db
     .select()
     .from(zipCodesTable)
@@ -168,12 +164,8 @@ router.get("/plans", async (req, res): Promise<void> => {
   const costMultiplier = zipRecord?.costMultiplier ?? 1.0;
   const factor = ageFactor(age) * costMultiplier;
 
-  // Fetch all plans with insurer data
   const rows = await db
-    .select({
-      plan: medigapPlansTable,
-      insurer: insurersTable,
-    })
+    .select({ plan: medigapPlansTable, insurer: insurersTable })
     .from(medigapPlansTable)
     .innerJoin(insurersTable, eq(medigapPlansTable.insurerId, insurersTable.id));
 
@@ -181,33 +173,40 @@ router.get("/plans", async (req, res): Promise<void> => {
     .filter((r) => !planLetter || r.plan.planLetter === planLetter)
     .map((r) => {
       const base = r.plan.basePremium * factor;
-      const discount = married && r.plan.marriedDiscount ? MARRIED_DISCOUNT_RATE : 0;
-      const monthlyPremium = Math.round(base * (1 - discount) * 100) / 100;
+      // Apply household discount only when:
+      //   1. Caller indicated household eligibility, AND
+      //   2. This insurer actually offers a household discount (rate is non-null)
+      // The rate is per-insurer — not a global constant.
+      const rate = r.plan.householdDiscountRate ?? 0;
+      const discountApplied = householdEligible === true && rate > 0;
+      const monthlyPremium = Math.round(base * (1 - (discountApplied ? rate : 0)) * 100) / 100;
+
       return {
         id: r.plan.id,
         insurerName: r.insurer.name,
         planLetter: r.plan.planLetter,
         monthlyPremium,
         annualDeductible: r.plan.annualDeductible,
-        outOfPocketLimit: r.plan.outOfPocketLimit,
+        outOfPocketLimit: r.plan.outOfPocketLimit ?? null,
         amBestRating: r.insurer.amBestRating,
-        moodyRating: r.insurer.moodyRating,
+        moodyRating: r.insurer.moodyRating ?? null,
         yearsInBusiness: r.insurer.yearsInBusiness,
-        marriedDiscount: r.plan.marriedDiscount,
-        notes: r.plan.notes,
+        householdDiscountRate: r.plan.householdDiscountRate ?? null,
+        householdEligibility: r.plan.householdEligibility ?? null,
+        householdDiscountNotes: r.plan.householdDiscountNotes ?? null,
+        householdDiscountApplied: discountApplied,
+        notes: r.plan.notes ?? null,
         planType: r.plan.planType,
-        partBDeductibleCovered: r.plan.partBDeductibleCovered,
-        foreignTravelCovered: r.plan.foreignTravelCovered,
+        partBDeductibleCovered: r.plan.partBDeductibleCovered === "true",
+        foreignTravelCovered: r.plan.foreignTravelCovered === "true",
       };
     });
 
-  // Sort
   if (sortBy === "premium-desc") {
     results.sort((a, b) => b.monthlyPremium - a.monthlyPremium);
   } else if (sortBy === "insurer") {
     results.sort((a, b) => a.insurerName.localeCompare(b.insurerName));
   } else {
-    // default: premium-asc
     results.sort((a, b) => a.monthlyPremium - b.monthlyPremium);
   }
 
@@ -222,7 +221,7 @@ router.get("/plans/summary", async (req, res): Promise<void> => {
     return;
   }
 
-  const { zip, age, married } = parsed.data;
+  const { zip, age, householdEligible } = parsed.data;
 
   const [zipRecord] = await db
     .select()
@@ -234,19 +233,17 @@ router.get("/plans/summary", async (req, res): Promise<void> => {
   const factor = ageFactor(age) * costMultiplier;
 
   const rows = await db
-    .select({
-      plan: medigapPlansTable,
-      insurer: insurersTable,
-    })
+    .select({ plan: medigapPlansTable, insurer: insurersTable })
     .from(medigapPlansTable)
     .innerJoin(insurersTable, eq(medigapPlansTable.insurerId, insurersTable.id));
 
   const premiums = rows.map((r) => {
     const base = r.plan.basePremium * factor;
-    const discount = married && r.plan.marriedDiscount ? MARRIED_DISCOUNT_RATE : 0;
+    const rate = r.plan.householdDiscountRate ?? 0;
+    const discountApplied = householdEligible === true && rate > 0;
     return {
       letter: r.plan.planLetter,
-      monthlyPremium: Math.round(base * (1 - discount) * 100) / 100,
+      monthlyPremium: Math.round(base * (1 - (discountApplied ? rate : 0)) * 100) / 100,
     };
   });
 
@@ -271,7 +268,6 @@ router.get("/plans/summary", async (req, res): Promise<void> => {
       ? (allPremiums[mid - 1] + allPremiums[mid]) / 2
       : allPremiums[mid];
 
-  // Group by letter
   const letterMap = new Map<string, number[]>();
   for (const p of premiums) {
     if (!letterMap.has(p.letter)) letterMap.set(p.letter, []);
@@ -291,10 +287,8 @@ router.get("/plans/summary", async (req, res): Promise<void> => {
       };
     });
 
-  // Most popular by count of insurers offering it
-  const popularLetter = [...letterMap.entries()].sort(
-    ([, a], [, b]) => b.length - a.length
-  )[0]?.[0] ?? "G";
+  const popularLetter =
+    [...letterMap.entries()].sort(([, a], [, b]) => b.length - a.length)[0]?.[0] ?? "G";
 
   res.json({
     state: zipRecord?.state ?? "Unknown",

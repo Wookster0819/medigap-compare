@@ -16,22 +16,22 @@ export default function Results() {
   const searchParams = new URLSearchParams(window.location.search);
   const zip = searchParams.get('zip') || '';
   const age = parseInt(searchParams.get('age') || '65', 10);
-  const married = searchParams.get('married') === 'true';
+  const householdEligible = searchParams.get('householdEligible') === 'true';
 
   const [planLetter, setPlanLetter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('premium_asc');
 
   // We use summary to get all available letters for the filter
   const { data: summary } = useGetPlansSummary(
-    { zip, age, married },
-    { query: { enabled: !!zip, queryKey: getGetPlansSummaryQueryKey({ zip, age, married }) } }
+    { zip, age, householdEligible },
+    { query: { enabled: !!zip, queryKey: getGetPlansSummaryQueryKey({ zip, age, householdEligible }) } }
   );
 
   const apiPlanLetter = planLetter !== 'all' ? planLetter : undefined;
 
   const { data: plans, isLoading } = useGetPlans(
-    { zip, age, married, planLetter: apiPlanLetter, sortBy },
-    { query: { enabled: !!zip, queryKey: getGetPlansQueryKey({ zip, age, married, planLetter: apiPlanLetter, sortBy }) } }
+    { zip, age, householdEligible, planLetter: apiPlanLetter, sortBy },
+    { query: { enabled: !!zip, queryKey: getGetPlansQueryKey({ zip, age, householdEligible, planLetter: apiPlanLetter, sortBy }) } }
   );
 
   // Fallback local sorting in case API doesn't handle all sort types
@@ -77,10 +77,10 @@ export default function Results() {
             </Link>
           </div>
 
-          <SummaryBar zip={zip} age={age} married={married} />
+          <SummaryBar zip={zip} age={age} householdEligible={householdEligible} planLetter={planLetter} />
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" data-testid="filter-plan-letters">
+            <div className="flex flex-wrap items-center gap-2" data-testid="filter-plan-letters">
               <Button
                 variant={planLetter === 'all' ? 'default' : 'outline'}
                 size="sm"

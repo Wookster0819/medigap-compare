@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Api
  * Medigap Plan Price Comparison API
- * OpenAPI spec version: 0.1.0
+ * OpenAPI spec version: 0.2.0
  */
 import {
   useQuery
@@ -148,7 +148,7 @@ export const getGetPlansUrl = (params: GetPlansParams,) => {
 }
 
 /**
- * Returns available Medigap plans for a given zip code, age, and marital status
+ * Returns available Medigap plans for a given zip code and age. Pass householdEligible=true only when two members of the same household are both enrolling — eligibility rules vary by insurer.
  * @summary Get Medigap plans
  */
 export const getPlans = async (params: GetPlansParams, options?: Parameters<typeof customFetch>[1]): Promise<MedigapPlan[]> => {

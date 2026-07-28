@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Api
  * Medigap Plan Price Comparison API
- * OpenAPI spec version: 0.1.0
+ * OpenAPI spec version: 0.2.0
  */
 export interface HealthStatus {
   status: string;
@@ -25,7 +25,23 @@ export interface MedigapPlan {
   /** @nullable */
   moodyRating: string | null;
   yearsInBusiness: number;
-  marriedDiscount: boolean;
+  /**
+     * Per-insurer household discount rate (e.g. 0.07 = 7%). null means this insurer does not offer a household discount. Rates and eligibility rules differ by insurer.
+     * @nullable
+     */
+  householdDiscountRate: number | null;
+  /**
+     * Insurer-specific eligibility requirement for the household discount.
+     * @nullable
+     */
+  householdEligibility: string | null;
+  /**
+     * Additional context about this insurer's household discount policy.
+     * @nullable
+     */
+  householdDiscountNotes: string | null;
+  /** Whether the household discount was applied to this plan's monthlyPremium in this response. */
+  householdDiscountApplied: boolean;
   /** @nullable */
   notes: string | null;
   planType: string;
@@ -78,7 +94,10 @@ export interface ZipInfo {
 export type GetPlansParams = {
 zip: string;
 age: number;
-married?: boolean;
+/**
+ * Whether the applicant may qualify for a household discount. Eligibility criteria differ by insurer — see householdEligibility on each plan.
+ */
+householdEligible?: boolean;
 planLetter?: string;
 sortBy?: string;
 };
@@ -86,7 +105,7 @@ sortBy?: string;
 export type GetPlansSummaryParams = {
 zip: string;
 age: number;
-married?: boolean;
+householdEligible?: boolean;
 };
 
 export type GetZipInfoParams = {

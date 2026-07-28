@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Api
  * Medigap Plan Price Comparison API
- * OpenAPI spec version: 0.1.0
+ * OpenAPI spec version: 0.2.0
  */
 import * as zod from 'zod';
 
@@ -18,13 +18,13 @@ export const HealthCheckResponse = zod.object({
 
 
 /**
- * Returns available Medigap plans for a given zip code, age, and marital status
+ * Returns available Medigap plans for a given zip code and age. Pass householdEligible=true only when two members of the same household are both enrolling — eligibility rules vary by insurer.
  * @summary Get Medigap plans
  */
 export const GetPlansQueryParams = zod.object({
   "zip": zod.coerce.string(),
   "age": zod.coerce.number(),
-  "married": zod.coerce.boolean().optional(),
+  "householdEligible": zod.coerce.boolean().optional().describe('Whether the applicant may qualify for a household discount. Eligibility criteria differ by insurer — see householdEligibility on each plan.'),
   "planLetter": zod.coerce.string().optional(),
   "sortBy": zod.coerce.string().optional()
 })
@@ -39,7 +39,10 @@ export const GetPlansResponseItem = zod.object({
   "amBestRating": zod.string(),
   "moodyRating": zod.string().nullable(),
   "yearsInBusiness": zod.number(),
-  "marriedDiscount": zod.boolean(),
+  "householdDiscountRate": zod.number().nullable().describe('Per-insurer household discount rate (e.g. 0.07 = 7%). null means this insurer does not offer a household discount. Rates and eligibility rules differ by insurer.'),
+  "householdEligibility": zod.string().nullable().describe('Insurer-specific eligibility requirement for the household discount.'),
+  "householdDiscountNotes": zod.string().nullable().describe('Additional context about this insurer\'s household discount policy.'),
+  "householdDiscountApplied": zod.boolean().describe('Whether the household discount was applied to this plan\'s monthlyPremium in this response.'),
   "notes": zod.string().nullable(),
   "planType": zod.string(),
   "partBDeductibleCovered": zod.boolean(),
@@ -55,7 +58,7 @@ export const GetPlansResponse = zod.array(GetPlansResponseItem)
 export const GetPlansSummaryQueryParams = zod.object({
   "zip": zod.coerce.string(),
   "age": zod.coerce.number(),
-  "married": zod.coerce.boolean().optional()
+  "householdEligible": zod.coerce.boolean().optional()
 })
 
 export const GetPlansSummaryResponse = zod.object({

@@ -3,11 +3,11 @@
  * Do not edit manually.
  * Api
  * Medigap Plan Price Comparison API
- * OpenAPI spec version: 0.1.0
+ * OpenAPI spec version: 0.2.0
  */
 
 export type GetPlansSummaryParams = {
 zip: string;
 age: number;
-married?: boolean;
+householdEligible?: boolean;
 };

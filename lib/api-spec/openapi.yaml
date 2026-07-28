@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
+  version: 0.2.0
   description: Medigap Plan Price Comparison API
 servers:
   - url: /api
@@ -32,7 +32,7 @@ paths:
       operationId: getPlans
       tags: [plans]
       summary: Get Medigap plans
-      description: Returns available Medigap plans for a given zip code, age, and marital status
+      description: Returns available Medigap plans for a given zip code and age. Pass householdEligible=true only when two members of the same household are both enrolling — eligibility rules vary by insurer.
       parameters:
         - name: zip
           in: query
@@ -44,9 +44,10 @@ paths:
           required: true
           schema:
             type: number
-        - name: married
+        - name: householdEligible
           in: query
           required: false
+          description: Whether the applicant may qualify for a household discount. Eligibility criteria differ by insurer — see householdEligibility on each plan.
           schema:
             type: boolean
         - name: planLetter
@@ -92,7 +93,7 @@ paths:
           required: true
           schema:
             type: number
-        - name: married
+        - name: householdEligible
           in: query
           required: false
           schema:
@@ -191,8 +192,18 @@ components:
           type: ["string", "null"]
         yearsInBusiness:
           type: number
-        marriedDiscount:
+        householdDiscountRate:
+          type: ["number", "null"]
+          description: Per-insurer household discount rate (e.g. 0.07 = 7%). null means this insurer does not offer a household discount. Rates and eligibility rules differ by insurer.
+        householdEligibility:
+          type: ["string", "null"]
+          description: Insurer-specific eligibility requirement for the household discount.
+        householdDiscountNotes:
+          type: ["string", "null"]
+          description: Additional context about this insurer's household discount policy.
+        householdDiscountApplied:
           type: boolean
+          description: Whether the household discount was applied to this plan's monthlyPremium in this response.
         notes:
           type: ["string", "null"]
         planType:
@@ -211,7 +222,10 @@ components:
         - amBestRating
         - moodyRating
         - yearsInBusiness
-        - marriedDiscount
+        - householdDiscountRate
+        - householdEligibility
+        - householdDiscountNotes
+        - householdDiscountApplied
         - notes
         - planType
         - partBDeductibleCovered

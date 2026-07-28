@@ -3,13 +3,16 @@
  * Do not edit manually.
  * Api
  * Medigap Plan Price Comparison API
- * OpenAPI spec version: 0.1.0
+ * OpenAPI spec version: 0.2.0
  */
 
 export type GetPlansParams = {
 zip: string;
 age: number;
-married?: boolean;
+/**
+ * Whether the applicant may qualify for a household discount. Eligibility criteria differ by insurer — see householdEligibility on each plan.
+ */
+householdEligible?: boolean;
 planLetter?: string;
 sortBy?: string;
 };
